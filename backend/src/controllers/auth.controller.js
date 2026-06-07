@@ -77,6 +77,14 @@ logoutUserController=async(req,res)=>{
         res.status(200).json({message:"user logged out successfully"})
     }
 }
+const getMeController=async(req,res)=>{
+    const user=await userModel.findById(req.user.id)  //req.user come from auth.middleware where we created req.user=decoded
+    res.status(200).json({message:"user found successfully",user:{
+        id:user._id,
+        username:user.username,
+        email:user.email
+    }})
+}
 
 
-module.exports={registerUserController,loginUserController,logoutUserController}
+module.exports={registerUserController,loginUserController,logoutUserController,getMeController}
