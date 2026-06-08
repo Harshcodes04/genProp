@@ -1,0 +1,48 @@
+@use "./style/button.scss";
+main {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .form-container {
+    min-width: 400px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  form {
+    display: flex;
+    min-width: 350px;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+
+    label {
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    input {
+      padding: 0.5rem;
+      border: 1px solid #333;
+      outline: none;
+      padding-inline: 1rem;
+      padding-block: 0.75rem;
+      border-radius: 4px;
+      background-color: #222;
+      color: #eee;
+    }
+  }
+  a {
+    color: #0088ff;
+    text-decoration: none;
+  }
+}
