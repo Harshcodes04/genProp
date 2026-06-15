@@ -3,10 +3,10 @@ import { useNavigate, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 import { useState } from "react";
 
-const login = () => {
+const Login = () => {
   const { loading, handleLogin } = useAuth();
-  const { email, setEmail } = useState("");
-  const { password, setPassword } = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -58,4 +58,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;

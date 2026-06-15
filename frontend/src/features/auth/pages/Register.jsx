@@ -1,11 +1,11 @@
-import { useState, React } from "react";
+import { useState } from "react";
 import "../auth.form.scss";
 import { useNavigate, Link } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 
 const Register = () => {
   const navigate = useNavigate();
-  const { username, setUsername } = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { loading, handleRegister } = useAuth();

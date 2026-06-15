@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { AuthContext } from "../services/auth.context";
-import { login, register, logout, getMe } from "../services/auth.api";
+import { AuthContext } from "../services/auth.context-value";
+import { login, register, logout } from "../services/auth.api";
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
@@ -11,7 +11,9 @@ export const useAuth = () => {
     try {
       const data = await login({ email, password });
       setUser(data.user);
+      return data;
     } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -22,7 +24,9 @@ export const useAuth = () => {
     try {
       const data = await register({ username, email, password });
       setUser(data.user); //user data is coming from auth.controller.js
+      return data;
     } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
@@ -33,7 +37,9 @@ export const useAuth = () => {
     try {
       const data = await logout();
       setUser(null);
+      return data;
     } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
