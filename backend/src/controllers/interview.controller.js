@@ -1,5 +1,6 @@
 const pdfParse = require("pdf-parse");
 const generateInterviewReport = require("../services/ai.services");
+const interviewReportModel = require("../models/interviewReport.model");
 
 const generateInterviewReportController = async (req, res) => {
   const resumeFile = req.file;
@@ -9,6 +10,18 @@ const generateInterviewReportController = async (req, res) => {
     resume: resumeContent,
     selfDescription,
     jobDescription,
+  });
+
+  const interviewReport = await interviewReportModel.create({
+    user: req.user._id,
+    resume: resumeContent,
+    selfDescription,
+    jobDescription,
+    ...interviewReportByAi,
+  });
+  res.status(201).json({
+    message: "Interview report generated successfully",
+    interviewReport,
   });
 };
 

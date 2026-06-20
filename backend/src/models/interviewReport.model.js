@@ -97,12 +97,19 @@ const interviewReportSchema = new mongoose.Schema(
     behaviouralQuestions: [behaviouralQuestionSchema],
     skillGap: [skillGapSchema],
     preparationPlan: [preparationPlanSchema],
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   {
     timeStamps: true,
   },
 );
 
-const interviewReportModel=new mongoose.model("InterviewReport",interviewReportSchema);
+const interviewReportModel = new mongoose.model(
+  "InterviewReport",
+  interviewReportSchema,
+);
 
-module.exports=interviewReportModel;
+module.exports = interviewReportModel;
