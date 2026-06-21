@@ -1,4 +1,4 @@
-const { GoogleGenAI } = "@google/genai";
+const { GoogleGenAI } = require("@google/genai");
 const { z } = require("zod");
 const { zodToJsonSchema } = require("zod-to-json-schema");
 
