@@ -11,4 +11,16 @@ interviewRouter.post(
   interviewController.generateInterviewReportController,
 );
 
+interviewRouter.get(
+  "/report/:interviewId",
+  authMiddleware.authUser,
+  interviewController.getInterviewReportByIdController,
+);
+
+interviewRouter.get(
+  "/",
+  authMiddleware.authUser,
+  interviewController.getAllInterviewReportsController,
+);
+
 module.exports = interviewRouter;
