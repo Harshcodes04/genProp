@@ -53,7 +53,8 @@ const interviewReportSchema = {
         properties: {
           question: {
             type: "string",
-            description: "The behavioural question can be asked in the interview",
+            description:
+              "The behavioural question can be asked in the interview",
           },
           intention: {
             type: "string",
@@ -97,7 +98,8 @@ const interviewReportSchema = {
         properties: {
           day: {
             type: "integer",
-            description: "The day number in the preparation plan,starting from 1",
+            description:
+              "The day number in the preparation plan,starting from 1",
           },
           focus: {
             type: "string",
@@ -114,6 +116,9 @@ const interviewReportSchema = {
         required: ["day", "focus", "tasks"],
       },
     },
+    title: z.string.describe(
+      "The title of the interview report, e.g. Software Engineer Interview Report",
+    ),
   },
   required: [
     "matchScore",
@@ -320,7 +325,7 @@ Generate the interview report now.
     } catch (error) {
       if (error.status === "UNAVAILABLE" && retries > 1) {
         console.warn(`Model busy, retrying... (${retries - 1} attempts left)`);
-        await new Promise(resolve => setTimeout(resolve, 3000)); // wait 3 seconds
+        await new Promise((resolve) => setTimeout(resolve, 3000)); // wait 3 seconds
         retries--;
       } else {
         throw error;
