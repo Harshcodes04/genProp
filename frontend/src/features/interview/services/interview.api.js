@@ -19,7 +19,7 @@ export const generateInterviewReport = async ({
       "Content-Type": "multipart/form-data",
     },
   });
-  return response;
+  return response.data;
 };
 //frontend to backend file will be sent using formData and the backend will receive it using multer middleware. The backend will then process the file and generate the interview report based on the provided job description and self description.
 
