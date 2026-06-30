@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import "../style/home.scss";
+import { useInterview } from "../hook/useInterview.js";
+import { useNavigate } from "react-router";
 
 const StepBadge = ({ number }) => (
   <span className="step-badge">{String(number).padStart(2, "0")}</span>
 );
 
-const RequiredTag = () => (
-  <span className="tag tag--required">Required</span>
-);
+const RequiredTag = () => <span className="tag tag--required">Required</span>;
 
 const BestTag = () => <span className="tag tag--best">Best Results</span>;
 
@@ -38,28 +38,58 @@ const CharCounter = ({ current, max }) => {
 };
 
 const Home = () => {
-  const [jdValue, setJdValue] = useState("");
-  const [selfValue, setSelfValue] = useState("");
-  const [fileName, setFileName] = useState(null);
+  const { loading, generateReport } = useInterview();
+  const [jobDescription, setJobDescription] = useState("");
+  const [selfDescription, setSelfDescription] = useState("");
   const [isDragging, setIsDragging] = useState(false);
-
-  const JD_MAX = 5000;
-  const SELF_MAX = 1000;
-
-  const handleFileChange = (e) => {
-    const file = e.target.files?.[0];
-    if (file) setFileName(file.name);
-  };
+  const [fileName, setFileName] = useState("");
+  const resumeInputRef = useRef();
+  const navigate = useNavigate();
 
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
     const file = e.dataTransfer.files?.[0];
-    if (file) setFileName(file.name);
+    if (file) {
+      if (resumeInputRef.current) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        resumeInputRef.current.files = dataTransfer.files;
+      }
+      setFileName(file.name);
+    }
   };
 
-  const hasProfile = fileName || selfValue.trim().length > 0;
-  const canGenerate = jdValue.trim().length > 0 && hasProfile;
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setFileName(file.name);
+    } else {
+      setFileName("");
+    }
+  };
+
+  const hasProfile = fileName !== "" || selfDescription.trim().length > 0;
+  const canGenerate = jobDescription.trim().length > 0 && hasProfile;
+  const handleGenerateReport = async () => {
+    const resumeFile = resumeInputRef.current.files[0];
+    const data = await generateReport({
+      jobDescription,
+      selfDescription,
+      resumeFile,
+    });
+    navigate(`/interview/plan/${data._id}`);
+  };
+  if(loading){
+    return (
+      <main className="home">
+        <div className="home__loading">
+          <span className="home__loading-icon">⟳</span>
+          <span className="home__loading-text">Generating your interview plan...</span>
+        </div>
+      </main>
+    )
+  }
 
   return (
     <main className="home">
@@ -96,14 +126,14 @@ const Home = () => {
             className="panel__textarea"
             placeholder={`Paste the full job description here...\ne.g. "Senior Frontend Engineer at Google requires proficiency in React, TypeScript, and large-scale system design..."`}
             spellCheck="false"
-            value={jdValue}
-            onChange={(e) => setJdValue(e.target.value.slice(0, JD_MAX))}
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
             aria-label="Job description"
             aria-required="true"
           />
 
           <div className="panel__footer">
-            <CharCounter current={jdValue.length} max={JD_MAX} />
+            <CharCounter current={jobDescription.length} />
           </div>
         </section>
 
@@ -127,7 +157,10 @@ const Home = () => {
 
             <div
               className={`file-drop ${isDragging ? "file-drop--dragging" : ""} ${fileName ? "file-drop--filled" : ""}`}
-              onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+              onDragOver={(e) => {
+                e.preventDefault();
+                setIsDragging(true);
+              }}
               onDragLeave={() => setIsDragging(false)}
               onDrop={handleDrop}
             >
@@ -137,12 +170,15 @@ const Home = () => {
                 name="resume"
                 accept=".pdf,.docx"
                 className="file-drop__input"
+                ref={resumeInputRef}
                 onChange={handleFileChange}
               />
               <label htmlFor="resume" className="file-drop__label">
                 {fileName ? (
                   <>
-                    <span className="file-drop__icon file-drop__icon--ok">✓</span>
+                    <span className="file-drop__icon file-drop__icon--ok">
+                      ✓
+                    </span>
                     <span className="file-drop__filename">{fileName}</span>
                     <span className="file-drop__hint">Click to replace</span>
                   </>
@@ -152,7 +188,7 @@ const Home = () => {
                     <span className="file-drop__primary">
                       Click to upload or drag &amp; drop
                     </span>
-                    <span className="file-drop__hint">PDF or DOCX · Max 5 MB</span>
+                    <span className="file-drop__hint">PDF · Max 5 MB</span>
                   </>
                 )}
               </label>
@@ -171,15 +207,15 @@ const Home = () => {
               className="panel__textarea panel__textarea--inset"
               placeholder="Briefly describe your experience, key skills, and years of experience if you don't have a resume handy..."
               spellCheck="false"
-              value={selfValue}
-              onChange={(e) => setSelfValue(e.target.value.slice(0, SELF_MAX))}
+              value={selfDescription}
+              onChange={(e) => setSelfDescription(e.target.value)}
             />
             <div className="panel__footer panel__footer--right">
-              <CharCounter current={selfValue.length} max={SELF_MAX} />
+              <CharCounter current={selfDescription.length} />
             </div>
           </div>
 
-          {!hasProfile && jdValue.length > 0 && (
+          {!hasProfile && jobDescription.length > 0 && (
             <InfoBanner message="Either a Resume or a Self Description is required to generate a personalised plan." />
           )}
         </section>
@@ -195,6 +231,7 @@ const Home = () => {
           id="generate-btn"
           className={`generate-btn ${canGenerate ? "generate-btn--active" : ""}`}
           type="button"
+          onClick={handleGenerateReport}
           disabled={!canGenerate}
         >
           <span className="generate-btn__star">★</span>
