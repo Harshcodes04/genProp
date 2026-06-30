@@ -33,9 +33,9 @@ $font-mono:     "Fira Code", "SF Mono", "Consolas", monospace;
   gap: 2.25rem;
   padding: 2.5rem 1.25rem 3rem;
   background-image:
-    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 255, 255, 0.025) 0%, transparent 70%),
-    linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(255, 152, 0, 0.08) 0%, transparent 70%),
+    linear-gradient(rgba(255, 152, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 152, 0, 0.02) 1px, transparent 1px);
   background-size: 100% 100%, 48px 48px, 48px 48px;
 }
 
@@ -86,7 +86,7 @@ $font-mono:     "Fira Code", "SF Mono", "Consolas", monospace;
 }
 
 .hero-title__accent {
-  background: linear-gradient(135deg, #d0d0d0, #a8a8a8, #787878);
+  background: linear-gradient(135deg, #f59e0b, #d97706, #b45309);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
