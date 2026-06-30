@@ -78,7 +78,10 @@ const Home = () => {
       selfDescription,
       resumeFile,
     });
-    navigate(`/interview/plan/${data._id}`);
+    
+    if (data && data._id) {
+      navigate(`/interview/plan/${data._id}`);
+    }
   };
   if (loading) {
     return (
