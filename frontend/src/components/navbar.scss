@@ -1,0 +1,82 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2.5rem;
+  background-color: rgba(22, 22, 22, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  &__logo {
+    a {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+
+      &:hover {
+        color: #f59e0b; // amber-500
+      }
+    }
+  }
+
+  &__links {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  &__user {
+    font-size: 0.95rem;
+    color: #a1a1aa;
+    font-weight: 500;
+  }
+
+  &__logout {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e4e4e7;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px; // pill shape
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.05);
+      color: #fff;
+    }
+  }
+
+  &__link {
+    color: #a1a1aa;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #fff;
+    }
+
+    &--primary {
+      background-color: #fff;
+      color: #09090b;
+      padding: 0.5rem 1.25rem;
+      border-radius: 9999px;
+      font-weight: 600;
+
+      &:hover {
+        background-color: #f4f4f5;
+        color: #09090b;
+      }
+    }
+  }
+}
