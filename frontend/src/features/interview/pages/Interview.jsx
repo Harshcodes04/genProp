@@ -1,8 +1,8 @@
 import { useState, useEffect, useReducer } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getInterviewReportById } from "../services/interview.api";
 import "../style/interview.scss";
-import { useInterview } from "../hook/useInterview.js";
+import { useInterview } from "../hook/useInterview.js"; 
 
 // ─── Sub-components ──────────────────────────────────────────────────────────
 
@@ -112,6 +112,7 @@ const fetchReducer = (state, action) => {
 export const Interview = () => {
   const { interviewId } = useParams();
   const {report}=useInterview();
+
   const [{ data, loading, error }, dispatch] = useReducer(fetchReducer, {
     data: null,
     loading: true,

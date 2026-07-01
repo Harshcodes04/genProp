@@ -38,7 +38,7 @@ const CharCounter = ({ current = 0, max = 5000 }) => {
 };
 
 const Home = () => {
-  const { loading, generateReport } = useInterview();
+  const { loading, generateReport, reports } = useInterview();
   const [jobDescription, setJobDescription] = useState("");
   const [selfDescription, setSelfDescription] = useState("");
   const [isDragging, setIsDragging] = useState(false);
@@ -70,6 +70,7 @@ const Home = () => {
   };
 
   const hasProfile = fileName !== "" || selfDescription.trim().length > 0;
+  const hasBoth = fileName !== "" && selfDescription.trim().length > 0;
   const canGenerate = jobDescription.trim().length > 0 && hasProfile;
   const handleGenerateReport = async () => {
     const resumeFile = resumeInputRef.current.files[0];
@@ -188,7 +189,7 @@ const Home = () => {
                     <span className="file-drop__primary">
                       Click to upload or drag &amp; drop
                     </span>
-                    <span className="file-drop__hint">PDF · Max 5 MB</span>
+                    <span className="file-drop__hint">PDF/DOCX · Max 5 MB</span>
                   </>
                 )}
               </label>
@@ -229,7 +230,13 @@ const Home = () => {
 
         <button
           id="generate-btn"
-          className={`generate-btn ${canGenerate ? "generate-btn--active" : ""}`}
+          className={`generate-btn ${
+            canGenerate
+              ? hasBoth
+                ? "generate-btn--optimal"
+                : "generate-btn--active"
+              : ""
+          }`}
           type="button"
           onClick={handleGenerateReport}
           disabled={!canGenerate}
