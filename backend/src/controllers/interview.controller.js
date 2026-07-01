@@ -44,7 +44,7 @@ const generateInterviewReportController = async (req, res) => {
     });
 
     const interviewReport = await interviewReportModel.create({
-      user: req.user._id,
+      user: req.user.id,
       resume: resumeText,
       selfDescription,
       jobDescription,
@@ -65,7 +65,7 @@ const getInterviewReportByIdController = async (req, res) => {
   const { interviewId } = req.params;
   const interviewReport = await interviewReportModel.findOne({
     _id: interviewId,
-    user: req.user._id,
+    user: req.user.id,
   });
   if (!interviewReport) {
     return res.status(404).json({ message: "Interview report not found" });
@@ -79,7 +79,7 @@ const getInterviewReportByIdController = async (req, res) => {
 const getAllInterviewReportsController = async (req, res) => {
   const interviewReports = await interviewReportModel
     .find({
-      user: req.user._id,
+      user: req.user.id,
     })
     .sort({ createdAt: -1 })
     .select(

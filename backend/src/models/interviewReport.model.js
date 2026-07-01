@@ -104,7 +104,7 @@ const interviewReportSchema = new mongoose.Schema(
     title: { type: String, required: [true, "Title is required"] },
   },
   {
-    timeStamps: true,
+    timestamps: true,
   },
 );
 

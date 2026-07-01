@@ -55,13 +55,13 @@ export const useInterview = () => {
     let result = null;
     try {
       result = await getAllInterviewReports();
-      setReports(result.interviewReport);
+      setReports(result.interviewReports);
     } catch (error) {
       console.error("Error fetching interview reports:", error);
     } finally {
       setLoading(false);
     }
-    return result?.interviewReport;
+    return result?.interviewReports;
   };
 
   return {
